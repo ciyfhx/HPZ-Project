@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom';
 export default class CreateUserPage extends Component {
 
   render() {
-    return <button>TESTING</button>
+    return <button>TESTING2</button>
   }
 
 
