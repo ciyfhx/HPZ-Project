@@ -1,8 +1,8 @@
 "use strict"
 
-function BookingMapCanvas(canvas){
+function BookingMapCanvas(canvas, data){
   this.canvas = canvas;
-  var data;
+  this.data = data;
 
   Math.clamp=function(val,min,max){return Math.min(Math.max(min, val), max);}
 
@@ -16,8 +16,8 @@ function BookingMapCanvas(canvas){
 
   var bookLocations = [];
 
-  this.createBookingLocation = function createBookingLocation(dataParam){
-    data = dataParam;
+  this.update = function update(paramData){
+    data = paramData;
     var i;
     bookLocations = [];
     for(i = 0; i < data.length; i++){

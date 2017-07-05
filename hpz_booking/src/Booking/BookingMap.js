@@ -16,7 +16,8 @@ class BookingMap extends Component {
   constructor(){
     super();
     this.state = {
-      canvasJS: undefined
+      canvasJS: undefined,
+      data: []
     }
   }
 
@@ -29,33 +30,31 @@ class BookingMap extends Component {
     );
   }
   componentDidMount() {
-    let canvasJS = new BookingMapCanvas(document.getElementById("canvas-book"));
-    this.props.dispatch(getResources()).then(() => {
-      const {resources} = this.props;
-      let results = resources;
-      let i = 0;
-      let resultArray = [];
-      for (i = 0; i < results.length; i++) {
-        let result = results[i];
-        resultArray.push({
-          x:result.location.x,
-          y:result.location.y,
-          selected: false,
-          resourceId: result._id,
+    this.setState({canvasJS:new BookingMapCanvas(document.getElementById("canvas-book"), this.state.data)});
+    this.updateData();
+  }
 
-        });
-      }
-      canvasJS.createBookingLocation(resultArray);
-      this.updateData(resultArray);
-    })
+updateData(){
+  const {canvasJS} = this.state;
+  this.props.dispatch(getResources()).then(() => {
+    const {resources} = this.props;
+    let results = resources;
+    let i = 0;
+    let resultArray = [];
+    for (i = 0; i < results.length; i++) {
+      let result = results[i];
+      resultArray.push({
+        x:result.location.x,
+        y:result.location.y,
+        selected: false,
+        resourceId: result._id,
 
-
-
-}
-
-updateData(data){
-this.props.updateData(data);
-}
+      });
+    }
+    this.setState({data:resultArray})
+    this.state.canvasJS.update(this.state.data);
+  });
+ }
 
 
 
