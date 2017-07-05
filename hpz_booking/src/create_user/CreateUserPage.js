@@ -3,7 +3,6 @@ import React, {
 } from 'react';
 import ReactDOM from 'react-dom';
 import {
-<<<<<<< HEAD
 	connect
 } from 'react-redux';
 import createUser from '../actions/createUserAction';
