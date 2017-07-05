@@ -12,17 +12,14 @@ import {
 } from "../utils/Validations"
 import classnames from 'classnames';
 import createUserAction from "../actions/createUserAction";
-=======
 	Bar, Bubble
 } from 'react-chartjs-2'
->>>>>>> master
 
 @connect((store) => {
 	return {};
 },)
 export default class CreateUserPage extends Component {
 
-<<<<<<< HEAD
 	constructor() {
 		super();
 
@@ -134,7 +131,6 @@ export default class CreateUserPage extends Component {
 					</div>
 				</div>
 			</div>
-=======
 	render() {
     const data = {
       labels: ['1', 'February', 'March', 'April', 'May', 'June', 'July'],
@@ -183,7 +179,6 @@ export default class CreateUserPage extends Component {
 				maintainAspectRatio: false
 			}}/>
 			<Bubble data={data2} /></div>
->>>>>>> master
 		)
 	}
 
