@@ -4,8 +4,8 @@ import PropTypes from 'prop-types';
 import {withRouter} from "react-router-dom";
 
 
-export default function(ComposedComponent){
-  class Authorization extends React.Component{
+export default function(ComposedComponent, requiredPrivilegeLevel){
+  class PrivilegeAuthorization extends React.Component{
 
     componentWillMount(){
       if(!this.props.isAuthenticated){

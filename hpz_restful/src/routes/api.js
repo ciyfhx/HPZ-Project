@@ -10,7 +10,7 @@ var validations = require('../common/Validations');
 
 
 function checkPrivilege(privilege, requiredPrivilegeLevel, res) {
-  if (privilege < requiredPrivilegeLevel) {
+  if (privilege >= requiredPrivilegeLevel) {
     return true;
   } else {
     res.json({
@@ -35,6 +35,7 @@ var authMiddleware = function(req, res, next) {
         });
       } else {
         req.decoded = decoded;
+        console.log(req.decoded)
         next();
       }
     });
@@ -152,17 +153,16 @@ router.post("/:resource", function(req, res, next) {
         username: loginData.username,
         password: loginData.password
       }, function(err, result) {
-        if (err) {
-          res.json({
-            status: 'fail',
-            result: 'Not Found'
+        if (err || !result) {
+          res.status(400).json({
+            unableToLogin: 'Unable to login'
           });
           return;
         }
         var token = jwt.sign({
           id: result._id,
           username: result.username,
-          privillege: result.privilege
+          privilege: result.privilege
         }, config.jwtSecret)
         res.json({
           status: 'success',
@@ -171,15 +171,19 @@ router.post("/:resource", function(req, res, next) {
       });
     }
 
-
+  }else {
+    next();
   }
 });
 
 router.post('/create-user', authMiddleware, function(req, res, next) {
+  console.log(req.decoded.privilege)
   if (checkPrivilege(req.decoded.privilege, 1, res)) {
     var createUserData = req.body;
     var validated = validations.validateInputCreateUser(createUserData);
-    if (!validations.isValid) {
+    var errors = validated.errors;
+    var isValid = validated.isValid;
+    if (!isValid) {
       res.status(400).json(errors);
       return;
     } else {
@@ -189,10 +193,11 @@ router.post('/create-user', authMiddleware, function(req, res, next) {
         privilege: createUserData.privilege
       }
       UsersController.create(newcreateUserData, function(err, user) {
+        console.log(err)
         if (err) {
-          res.json({
+          res.status(400).json({
             status: 'fail',
-            result: 'Unable to create user'
+            result: 'Unable to create user',
           });
           return;
         }

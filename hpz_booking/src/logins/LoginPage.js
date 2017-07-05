@@ -15,7 +15,7 @@ import {
 import login from '../actions/loginAction';
 import classnames from 'classnames';
 import {withRouter} from "react-router-dom";
-import validateInput from "./signupValidation"
+import {validateInputLogin} from "../utils/Validations"
 
 @connect((store) => {
 	return {
@@ -35,8 +35,8 @@ class LoginPage extends Component {
 		this.handleClick = this.handleClick.bind(this);
 	}
 
-	isVaild(){
-		const {errors, isValid} = validateInput(this.state)
+	isValid(){
+		const {errors, isValid} = validateInputLogin(this.state)
 
    if(!isValid)this.setState({errors});
 		return isValid;
@@ -46,7 +46,7 @@ class LoginPage extends Component {
 
 	handleClick() {
 
-		if(this.isVaild()){
+		if(this.isValid()){
 		this.props.dispatch(login({
 			username: this.state.username,
 			password: this.state.password
@@ -63,6 +63,7 @@ class LoginPage extends Component {
 	render() {
     const {errors} = this.state;
 		return ( <div className="container">
+		{errors.unableToLogin && <div className="alert alert-danger">{errors.unableToLogin}</div>}
     <div className="row">
         <div className="col-md-4 col-md-offset-4">
             <div className="login-panel panel panel-default">

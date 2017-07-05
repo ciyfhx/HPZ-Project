@@ -36,9 +36,9 @@ var validateInputCreateUser = function(data){
       errors.confirmPassword = "Confirm password is different from the password"
     }
 
-    // if(Validator.isInt(data.privilege.toString())){
-    //   // errors.password = "This field is required"
-    // }
+    if(Validator.isInt(data.privilege.toString())){
+      //errors.privilege = "This field is required"
+    }
 
     return {
       errors,

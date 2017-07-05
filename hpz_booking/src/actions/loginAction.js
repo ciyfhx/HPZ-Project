@@ -15,6 +15,7 @@ export default function login(userData){
       const token = res.data.token;
       localStorage.setItem('token', token);
       setAuthorizationToken(token);
+      console.log(jwtDecode(res.data.token))
       dispatch(setUser(jwtDecode(res.data.token)))
     });
   }

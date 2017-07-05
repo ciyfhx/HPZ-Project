@@ -4,6 +4,7 @@ import Nav from './Nav';
 import { Route, NavLink, Switch } from "react-router-dom";
 import BookingMain from './Booking/BookingMain'
 import CreateUserPage from './create_user/CreateUserPage'
+import Authorization from './utils/Authorization'
 
 export default class Content extends Component {
 
@@ -25,6 +26,7 @@ class ContentRoutes extends Component{
   render(){
     return (<Switch>
          <Route path = "/book" component = {BookingMain}/>
-         <Route path = "/create-user-page" component = {CreateUserPage}/></Switch> );
+         <Route path = "/create-user" component = {CreateUserPage}/>
+         </Switch> );
   }
 }
