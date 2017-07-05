@@ -8,9 +8,7 @@ export default function(ComposedComponent, requiredPrivilegeLevel){
   class PrivilegeAuthorization extends React.Component{
 
     componentWillMount(){
-      if(!this.props.isAuthenticated){
-        this.props.history.push('/login');
-      }
+      
     }
 
     static propsTypes = {
