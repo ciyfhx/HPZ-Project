@@ -82,7 +82,7 @@ export default class CreateUserPage extends Component {
 		return (
 			<div className="container-fluid">
 				<div className="row">
-					<div className="col-lg-12">
+					<div className="col-lg-6">
 						<h1 className="page-header">Create User(Incomplete)</h1>
 						<div id="content-booking">
 							<div className="panel panel-default">

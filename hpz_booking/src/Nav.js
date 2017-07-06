@@ -89,6 +89,10 @@ export default class Nav extends Component {
 										<i className="fa fa-edit fa-fw"></i>Create User
 									</a>
 								</LinkContainer>
+								<LinkContainer to="/feedback">
+									<a className={this.checkActive("")}>
+										<i className="fa fa-edit fa-fw"></i>FeedBack</a>
+								</LinkContainer>
 							</li>
 						</ul>
 					</div>
