@@ -2,9 +2,8 @@ import React, { Component } from 'react';
 import BookingMapCanvas from '../ciyfhx/canvas-book.js';
 import axios from 'axios';
 import getResources from '../actions/resourcesAction'
+import {setSelectedResources} from '../actions/bookingActions'
 import {connect} from 'react-redux';
-
-import $ from 'jquery'
 
 @connect((store)=> {
   return {
@@ -48,10 +47,14 @@ updateData(){
         y:result.location.y,
         selected: false,
         resourceId: result._id,
+        booked: result.booked,
+        name: result.name
+
 
       });
     }
     this.setState({data:resultArray})
+    this.props.dispatch(setSelectedResources(resultArray))
     this.state.canvasJS.update(this.state.data);
   });
  }

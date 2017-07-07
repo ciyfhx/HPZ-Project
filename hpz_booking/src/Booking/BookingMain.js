@@ -2,8 +2,15 @@ import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
 import BookingMap from './BookingMap.js';
 import Booking from './Booking.js';
-import $ from 'jquery';
+import axios from 'axios';
+import {book} from '../actions/bookingActions';
+import {connect} from 'react-redux'
 
+@connect((store)=> {
+  return {
+    selectedResources: store.bookings.selectedResources
+  }
+})
 export default class BookingMain extends Component {
 
   constructor() {
@@ -12,9 +19,8 @@ export default class BookingMain extends Component {
       name: undefined,
       data: []
     };
-    this.updateData = this.updateData.bind(this);
     this.onTextChange = this.onTextChange.bind(this);
-
+    this.handleClick = this.handleClick.bind(this);
   }
 
   render() {
@@ -25,9 +31,9 @@ export default class BookingMain extends Component {
             <h1 className="page-header">Testing</h1>
             <div id="content-booking">
               <div>
-                <BookingMap updateData={this.updateData}></BookingMap>
+                <BookingMap updateData={this.updateData.bind(this)}></BookingMap>
                 <Booking text={"Name:"} inputId="id" onTextChange={this.onTextChange}></Booking>
-                <button type="submit" className="btn btn-primary" onClick={this.handleClick.bind(this)}>
+                <button type="submit" className="btn btn-primary" onClick={this.handleClick}>
                   Book
                 </button>
                 <br/>
@@ -41,8 +47,9 @@ export default class BookingMain extends Component {
       </div>
     );
   }
-  updateData(result) {
-    this.setState({data: result})
+
+  updateData(value){
+    this.setState({data:value})
   }
 
   onTextChange(value) {
@@ -57,32 +64,36 @@ export default class BookingMain extends Component {
     }
 
   handleClick(e) {
-    let selectedResource = this.state.data.filter(function(resource) {
+
+    let selectedResource = this.props.selectedResources.filter(function(resource) {
       return resource.selected
     });
-    console.log(this.state.data)
-    console.log(selectedResource)
+    this.props.dispatch(book({
+      resourceId: selectedResource[0].resourceId,
+      nameOfBooker: this.state.name,
+      duration: 1})).then(() => console.log("Booked"), err => console.log(err))
 
-    $.ajax({
-      url: "/api/book",
-      method: "POST",
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      success: function(data) {
-        this.printResult(true);
-        console.log(data);
-      }.bind(this),
-      error: function(request, status, error) {
-        this.printResult(false);
-        console.log(error);
-      }.bind(this),
-      data: JSON.stringify({
-        resourceId: selectedResource[0].resourceId,
-        nameOfBooker: this.state.name,
-        duration: 1
 
-      })
-    });
+    // $.ajax({
+    //   url: "/api/book",
+    //   method: "POST",
+    //   headers: {
+    //     'Content-Type': 'application/json'
+    //   },
+    //   success: function(data) {
+    //     this.printResult(true);
+    //     console.log(data);
+    //   }.bind(this),
+    //   error: function(request, status, error) {
+    //     this.printResult(false);
+    //     console.log(error);
+    //   }.bind(this),
+    //   data: JSON.stringify({
+    //     resourceId: selectedResource[0].resourceId,
+    //     nameOfBooker: this.state.name,
+    //     duration: 1
+    //
+    //   })
+    // });
   }
 }

@@ -17,6 +17,7 @@ function BookingMapCanvas(canvas, data){
   var bookLocations = [];
 
   this.update = function update(paramData){
+    console.log(paramData)
     data = paramData;
     var i;
     bookLocations = [];
@@ -96,6 +97,7 @@ function BookingMapCanvas(canvas, data){
       var minRingRadius = 15;
       var ringRadius = minRingRadius;
       var targetRingRadius = 40;
+      var percentageDrop = 0.0;
 
       this.draw = function(){
         g.save();
@@ -108,9 +110,37 @@ function BookingMapCanvas(canvas, data){
         //Draw ring
         g.beginPath();
         g.globalAlpha = alpha;
-        g.strokeStyle = this.color;
+        g.strokeStyle = g.fillStyle;
         g.arc(this.data.x, this.data.y, ringRadius, 0, Math.PI*2);
         g.stroke();
+
+        //Draw popup
+        if(inside){
+          g.globalAlpha = 1.0*percentageDrop;
+
+          g.lineWidth= 2;
+          var rectWidth = 200;
+          var rectHeight = 100;
+
+          var locX = Math.clamp(this.data.x-rectWidth/2, 0, canvas.width-rectWidth);
+          var locY = Math.clamp(this.data.y+(rectHeight/2*percentageDrop), 0, canvas.height);
+          if(locY>=canvas.height-rectHeight)locY = this.data.y-(rectHeight/2*percentageDrop)-rectHeight
+
+          //Fill Rectangle
+          g.fillStyle = 'white'
+          roundRect(g, locX, locY, rectWidth, rectHeight, 5, true, false);
+          //Draw border
+          g.strokeStyle = '#135C7F'
+          roundRect(g, locX, locY, rectWidth, rectHeight, 5, false, true);
+
+          //Resouces Details
+          g.fillStyle = "black"
+          g.font = "12px Arial";
+          g.textAlign = "center";
+          g.fillText(this.data.name,locX+(rectWidth/2),locY+(rectHeight*0.2));
+
+        }
+
 
         g.restore();
       }
@@ -123,9 +153,13 @@ function BookingMapCanvas(canvas, data){
         if(dist<=radius){
           inside = true;
           this.color = '#135C7F';
+
         }else{
           inside = false;
           this.color = '#339BCC';
+
+          //Reset popup percentageDrop
+          percentageDrop = 0.0;
         }
 
         ringRadius = Math.clamp(ringRadius+0.5, minRingRadius, targetRingRadius);
@@ -133,6 +167,10 @@ function BookingMapCanvas(canvas, data){
           ringRadius = minRingRadius;
         }
         alpha = 1 - ringRadius / targetRingRadius;
+
+        //Update popup
+        percentageDrop = Math.clamp(percentageDrop+0.1, 0.0, 1.0);
+
 
       }
 
@@ -145,7 +183,40 @@ function BookingMapCanvas(canvas, data){
 
 }
 
+function roundRect(ctx, x, y, width, height, radius, fill, stroke) {
+  if (typeof stroke == 'undefined') {
+    stroke = true;
+  }
+  if (typeof radius === 'undefined') {
+    radius = 5;
+  }
+  if (typeof radius === 'number') {
+    radius = {tl: radius, tr: radius, br: radius, bl: radius};
+  } else {
+    var defaultRadius = {tl: 0, tr: 0, br: 0, bl: 0};
+    for (var side in defaultRadius) {
+      radius[side] = radius[side] || defaultRadius[side];
+    }
+  }
+  ctx.beginPath();
+  ctx.moveTo(x + radius.tl, y);
+  ctx.lineTo(x + width - radius.tr, y);
+  ctx.quadraticCurveTo(x + width, y, x + width, y + radius.tr);
+  ctx.lineTo(x + width, y + height - radius.br);
+  ctx.quadraticCurveTo(x + width, y + height, x + width - radius.br, y + height);
+  ctx.lineTo(x + radius.bl, y + height);
+  ctx.quadraticCurveTo(x, y + height, x, y + height - radius.bl);
+  ctx.lineTo(x, y + radius.tl);
+  ctx.quadraticCurveTo(x, y, x + radius.tl, y);
+  ctx.closePath();
+  if (fill) {
+    ctx.fill();
+  }
+  if (stroke) {
+    ctx.stroke();
+  }
 
+}
 
 
 

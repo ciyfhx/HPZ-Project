@@ -15,7 +15,8 @@ import {
 @connect((store) => {
 	return {
 		isAuthenticated: store.auth.isAuthenticated,
-		username: store.auth.user.username
+		username: store.auth.user.username,
+		privilege: store.auth.user.privilege
 	}
 })
 export default class Nav extends Component {
@@ -40,7 +41,7 @@ export default class Nav extends Component {
 
 	render() {
 		const {
-			username
+			username, privilege
 		} = this.props;
 		console.log(username)
 		return (
@@ -84,14 +85,15 @@ export default class Nav extends Component {
 									<a className={this.checkActive("")}>
 										<i className="fa fa-edit fa-fw"></i>Booking</a>
 								</LinkContainer>
-								<LinkContainer to="/create-user">
+								{(privilege>=1) && <LinkContainer to="/create-user">
 									<a className={this.checkActive("")}>
 										<i className="fa fa-edit fa-fw"></i>Create User
 									</a>
-								</LinkContainer>
+								</LinkContainer>}
 								<LinkContainer to="/feedback">
 									<a className={this.checkActive("")}>
-										<i className="fa fa-edit fa-fw"></i>FeedBack</a>
+										<i className="fa fa-edit fa-fw"></i>FeedBack
+									</a>
 								</LinkContainer>
 							</li>
 						</ul>

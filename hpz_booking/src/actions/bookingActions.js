@@ -14,3 +14,18 @@ export default function getBookings(){
     });
   }
 }
+
+export function book(book){
+  return (dispatch) => {
+    return axios.post('api/book', book).then(res => {
+      dispatch(setBookings(res.data.result))
+    });
+  }
+}
+
+export function setSelectedResources(data){
+  return {
+    type: "UPDATE_SELECTED_RESOURCES",
+    selectedResources: data
+  }
+}
