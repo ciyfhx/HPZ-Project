@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import BookingMapCanvas from '../ciyfhx/canvas-book.js';
 import axios from 'axios';
-import getResources from '../actions/resourcesAction'
-import {setSelectedResources} from '../actions/bookingActions'
+import getResources from '../actions/resourcesActions'
+import {setResources} from '../actions/bookingActions'
 import {connect} from 'react-redux';
 
 @connect((store)=> {
@@ -29,7 +29,7 @@ class BookingMap extends Component {
     );
   }
   componentDidMount() {
-    this.setState({canvasJS:new BookingMapCanvas(document.getElementById("canvas-book"), this.state.data)});
+    this.setState({canvasJS:new BookingMapCanvas(document.getElementById("canvas-book"), this.state.data, this.props.onSelect)});
     this.updateData();
   }
 
@@ -54,7 +54,7 @@ updateData(){
       });
     }
     this.setState({data:resultArray})
-    this.props.dispatch(setSelectedResources(resultArray))
+    this.props.dispatch(setResources(resultArray))
     this.state.canvasJS.update(this.state.data);
   });
  }

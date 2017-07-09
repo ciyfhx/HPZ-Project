@@ -43,7 +43,6 @@ export default class Nav extends Component {
 		const {
 			username, privilege
 		} = this.props;
-		console.log(username)
 		return (
 			<nav className="navbar navbar-default navbar-static-top" role="navigation" style={{
 				marginBottom: 0

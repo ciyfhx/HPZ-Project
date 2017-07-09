@@ -1,3 +1,3 @@
-TITLE Front End Server
+@echo off
 npm start
 pause

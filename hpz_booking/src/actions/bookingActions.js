@@ -23,9 +23,9 @@ export function book(book){
   }
 }
 
-export function setSelectedResources(data){
+export function setResources(data){
   return {
-    type: "UPDATE_SELECTED_RESOURCES",
-    selectedResources: data
+    type: "UPDATE_RESOURCES",
+    resources: data
   }
 }

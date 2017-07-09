@@ -1,6 +1,6 @@
 "use strict"
 
-function BookingMapCanvas(canvas, data){
+function BookingMapCanvas(canvas, data, onSelect){
   this.canvas = canvas;
   this.data = data;
 
@@ -17,7 +17,6 @@ function BookingMapCanvas(canvas, data){
   var bookLocations = [];
 
   this.update = function update(paramData){
-    console.log(paramData)
     data = paramData;
     var i;
     bookLocations = [];
@@ -37,13 +36,13 @@ function BookingMapCanvas(canvas, data){
 
 
 
-    window.addEventListener('mousemove', function(event){
+    canvas.addEventListener('mousemove', function(event){
           rect = canvas.getBoundingClientRect();
           mouse.x = event.clientX - rect.left;
           mouse.y = event.clientY - rect.top;
     });
 
-    window.addEventListener('click', function(event){
+    canvas.addEventListener('click', function(event){
       var i;
       for(i = 0; i < bookLocations.length; i++){
         var bookLocation = bookLocations[i];
@@ -175,7 +174,12 @@ function BookingMapCanvas(canvas, data){
       }
 
       this.click = function(){
-        if(inside)this.data.selected = !this.data.selected;
+        this.data.selected = false;
+        if(inside){
+          this.data.selected = !this.data.selected;
+          onSelect(this.data);
+        }
+
       }
 
 

@@ -1,3 +1,3 @@
-TITLE Restful Server
+@echo off
 npm run server
 pause

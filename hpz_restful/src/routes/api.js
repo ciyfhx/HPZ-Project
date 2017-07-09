@@ -105,6 +105,21 @@ router.get("/:resource/:id", authMiddleware, function(req, res, next) {
       });
 
     });
+  }else if(resource == 'resource-bookings'){
+    BookingController.find({resourceId:id}, function(err, result){
+      if (err) {
+        res.json({
+          status: 'fail',
+          result: 'Not Found'
+        });
+        return;
+      }
+      res.json({
+        status: 'success',
+        result: result
+      });
+    })
+
   }
 });
 
