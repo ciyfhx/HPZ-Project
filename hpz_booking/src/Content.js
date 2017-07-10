@@ -2,7 +2,8 @@ import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
 import Nav from './Nav';
 import { Route, NavLink, Switch } from "react-router-dom";
-import BookingMain from './Booking/BookingMain'
+import BookingMain from './booking/BookingMain'
+import BookingReference from './booking/BookingReference'
 import CreateUserPage from './create_user/CreateUserPage'
 import FeedbackPage from './feedback/Feedback'
 import Authorization from './utils/Authorization'
@@ -27,6 +28,7 @@ class ContentRoutes extends Component{
   render(){
     return (<Switch>
          <Route path = "/book" component = {BookingMain}/>
+        <Route path = "/booking-reference" component = {BookingReference}/>
          <Route path = "/create-user" component = {CreateUserPage}/>
          <Route path = "/feedback" component = {FeedbackPage}/>
          </Switch> );
