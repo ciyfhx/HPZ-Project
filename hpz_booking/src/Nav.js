@@ -84,6 +84,10 @@ export default class Nav extends Component {
 									<a className={this.checkActive("")}>
 										<i className="fa fa-edit fa-fw"></i>Booking</a>
 								</LinkContainer>
+								<LinkContainer to="/booking-reference">
+									<a className={this.checkActive("")}>
+										<i className="fa fa-table fa-fw"></i>Booking Reference</a>
+								</LinkContainer>
 								{(privilege>=1) && <LinkContainer to="/create-user">
 									<a className={this.checkActive("")}>
 										<i className="fa fa-edit fa-fw"></i>Create User
