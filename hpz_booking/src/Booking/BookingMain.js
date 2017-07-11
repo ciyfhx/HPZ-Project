@@ -3,7 +3,6 @@ import React, {
 } from 'react';
 import ReactDOM from 'react-dom';
 import BookingMap from './BookingMap.js';
-import Booking from './Booking.js';
 import {
 	getResourceBookings
 } from '../actions/resourcesActions'
