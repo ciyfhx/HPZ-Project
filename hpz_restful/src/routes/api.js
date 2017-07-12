@@ -88,39 +88,60 @@ router.get('/:resource', authMiddleware, function(req, res, next) {
 
 
 router.get("/:resource/:id", authMiddleware, function(req, res, next) {
-  var resource = req.params.resource;
-  var id = req.params.id;
-  if (resource == 'bookings') {
-    BookingController.findById(id, function(err, result) {
-      if (err) {
+    var resource = req.params.resource;
+    var id = req.params.id;
+    if (resource == 'bookings') {
+      BookingController.findById(id, function(err, result) {
+        if (err) {
+          res.json({
+            status: 'fail',
+            result: 'Not Found'
+          });
+          return;
+        }
         res.json({
-          status: 'fail',
-          result: 'Not Found'
+          status: 'success',
+          result: result
         });
-        return;
-      }
-      res.json({
-        status: 'success',
-        result: result
-      });
 
-    });
-  }else if(resource == 'resource-bookings'){
-    BookingController.find({resourceId:id}, function(err, result){
-      if (err) {
+      });
+    } else if (resource == 'resource-bookings') {
+      BookingController.find({
+        resourceId: id
+      }, function(err, result) {
+        if (err) {
+          res.json({
+            status: 'fail',
+            result: 'Not Found'
+          });
+          return;
+        }
         res.json({
-          status: 'fail',
-          result: 'Not Found'
+          status: 'success',
+          result: result
         });
-        return;
-      }
-      res.json({
-        status: 'success',
-        result: result
-      });
-    })
+      })
 
-  }
+    } else if (resource == 'cancel-book') {
+      console.log(id)
+      BookingController.delete({
+        _id: id,
+        function(err, result) {
+          if (err) {
+            res.json({
+              status: 'fail',
+              result: err
+            });
+            return;
+          }
+          res.json({
+            status: 'success',
+            result: result
+          });
+        }
+      });
+    }
+
 });
 
 
@@ -186,13 +207,12 @@ router.post("/:resource", function(req, res, next) {
       });
     }
 
-  }else {
+  } else {
     next();
   }
 });
 
 router.post('/create-user', authMiddleware, function(req, res, next) {
-  console.log(req.decoded.privilege)
   if (checkPrivilege(req.decoded.privilege, 1, res)) {
     var createUserData = req.body;
     var validated = validations.validateInputCreateUser(createUserData);

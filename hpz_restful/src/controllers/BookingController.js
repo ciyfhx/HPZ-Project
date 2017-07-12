@@ -42,7 +42,14 @@ module.exports = {
 
   },
   delete: function(){
+    Booking.remove(params, function(err, booking){
+      if(err){
+        callback(err, null);
+        return;
+      }
+      callback(null, booking);
 
+    });
   }
 
 }

@@ -1,75 +1,104 @@
 import React, {
 	Component
 } from 'react';
-import BootstrapTable from 'reactjs-bootstrap-table';
+import {
+	BootstrapTable,
+	TableHeaderColumn
+} from 'react-bootstrap-table';
 import getBookings from '../actions/bookingActions';
-import {Button} from 'react-bootstrap'
-import {connect} from 'react-redux';
-import 'bootstrap/dist/css/bootstrap.css'
+import {
+	Button
+} from 'react-bootstrap'
+import {
+	connect
+} from 'react-redux';
+import {cancelBook} from '../actions/bookingActions'
 
-@connect((store)=>{
+@connect((store) => {
 	return {
-  bookings: store.bookings.bookings
+		bookings: store.bookings.bookings
 	}
 })
 export default class BookingReference extends Component {
 
-  constructor(){
+	constructor() {
 		super();
-		this.state = {selected: []}
+		this.state = {
+			selected: []
+		}
 		this.onChange = this.onChange.bind(this)
 		this.cancelBookings = this.cancelBookings.bind(this);
 	}
 
 	render() {
-//     let data = [
-//    { id: 1, bookingId: '1', bookTiming: 'BABA', duration: 'lol'},
-//    { id: 2, bookingId: '2', bookTiming: 'Why are you reading this', duration: '10?'},
-//
-let data = this.convertToBookingReference(this.props.bookings)
-    let columns = [
-      { name: 'bookingId', display: 'Booking ID' },
-      { name: 'bookTiming', display: 'Book Timing' },
-      { name: 'duration', display: 'Duration' }
-    ]
+		// let data = [
+		// 	{
+		// 		id: 1,
+		// 		bookingId: '1',
+		// 		bookTiming: 'BABA',
+		// 		duration: 'lol'
+		// 	}, {
+		// 		id: 2,
+		// 		bookingId: '2',
+		// 		bookTiming: 'Why are you reading this',
+		// 		duration: '10?'
+		// 	}
+		// ]
 
+		let data = this.convertToBookingReference(this.props.bookings)
+		const selectRowProp = {
+		  mode: 'radio',
+			clickToSelect: true,
+			onSelect: this.onChange
+		};
 		return (
 			<div className="container-fluid">
-			<div className="row">
-				<div className="col-lg-12">
-					<h1 className="page-header">Booking Reference</h1>
-          <div id="content-booking-reference"> 
-					<BootstrapTable tableClass="table table-bordered table-hover" resize={true} disableSelectText={false} activeClass={"info"}data={data} headers={true} selected={this.state.selected} select={"multiple"}></BootstrapTable>
-          <Button bsStyle="danger" onClick={this.cancelBookings}>Cancel</Button>
+				<div className="row">
+					<div className="col-lg-12">
+						<h1 className="page-header">Booking Reference</h1>
+						<div id="content-booking-reference">
+							<BootstrapTable data={data} striped={true} hover={true} selectRow={ selectRowProp }>
+								<TableHeaderColumn dataField="id" isKey={true} dataAlign="center" dataSort={true}>No.</TableHeaderColumn>
+								<TableHeaderColumn dataField="bookingId">Booking ID</TableHeaderColumn>
+								<TableHeaderColumn dataField="bookTiming">Book Timing</TableHeaderColumn>
+								<TableHeaderColumn dataField="duration">Duration</TableHeaderColumn>
+							</BootstrapTable>
+							<Button bsStyle="danger" onClick={this.cancelBookings}>Cancel</Button>
+						</div>
 					</div>
 				</div>
 			</div>
-		</div> )
-  }
-
-  cancelBookings(){
-		console.log(this.state.selected)
+		)
 	}
 
-	onChange(newSelection) {
-    this.setState({selected: newSelection})
-  }
+	cancelBookings() {
+		this.props.dispatch(cancelBook(this.state.selected.bookingId))
+	}
 
-	componentWillMount(){
+	onChange(row, isSelected) {
+		this.setState({
+			selected: row
+		})
+	}
+
+	componentWillMount() {
 		this.props.dispatch(getBookings());
 	}
 
-  convertToBookingReference(bookings){
+	convertToBookingReference(bookings) {
 		let data = [];
-    bookings.forEach((booking)=>{
+		console.log(bookings)
+		let i = 1;
+		bookings.forEach((booking) => {
 			data.push({
-				id: booking._id,
-			  duration: booking.duration,
+				id: i,
+				duration: booking.duration,
 				bookingId: booking._id,
 				bookTiming: booking.bookTiming
 			})
+			i++;
 		})
-
+		console.log(data)
 		return data
 	}
 

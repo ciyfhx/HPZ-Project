@@ -29,3 +29,9 @@ export function setResources(data){
     resources: data
   }
 }
+
+export function cancelBook(id){
+  return (dispatch) => {
+    return axios.get('api/cancel-book/'+id)
+  }
+}
