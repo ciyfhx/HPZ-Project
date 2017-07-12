@@ -3,10 +3,7 @@ import ReactDOM from 'react-dom';
 import Nav from './Nav';
 import { Route, NavLink, Switch } from "react-router-dom";
 import BookingMain from './booking/BookingMain'
-<<<<<<< HEAD
-=======
 import BookingReference from './booking/BookingReference'
->>>>>>> c13771a8b2793f89059c7255b7a2507454329cdd
 import CreateUserPage from './create_user/CreateUserPage'
 import FeedbackPage from './feedback/Feedback'
 import Authorization from './utils/Authorization'
