@@ -1,8 +1,20 @@
 import React, {
 	Component
 } from 'react'
+import sendFeedback from '../actions/feedbackAction';
+import {connect} from 'react-redux'
 
+@connect((store)=>{
+	return {}
+})
 export default class FeedbackPage extends Component {
+
+	constructor(){
+		super();
+		this.state = {
+			message: ""
+		}
+	}
 
 	render() {
 		return (
@@ -20,10 +32,10 @@ export default class FeedbackPage extends Component {
 								<form role="feedback">
 									<div className="form-group">
 										<label>Feedback</label>
-										<textarea className="form-control" rows="3"></textarea>
+										<textarea className="form-control" rows="3" onChange={this.onChange.bind(this)}></textarea>
 									</div>
 									<div className="form-group">
-										<button type="button" className="btn btn-success">Submit</button>
+										<button type="button" className="btn btn-success" onClick={this.handleClick.bind(this)}>Submit</button>
 									</div>
 								</form>
 							</div>
@@ -32,6 +44,15 @@ export default class FeedbackPage extends Component {
 				</div>
 			</div>
 		)
+	}
+
+	onChange(event){
+		this.setState({message:event.target.value})
+	}
+
+	handleClick(){
+		console.log(this.state.message)
+		this.props.dispatch(sendFeedback(this.state.message)).then(()=>console.log("Successfully sended feedback"))
 	}
 
 }

@@ -69,7 +69,7 @@ export default class Nav extends Component {
 							</li>
 							<li className="divider"></li>
 							<li>
-								<a href="login.html">
+								<a onClick={this.logout.bind(this)}>
 									<i className="fa fa-sign-out fa-fw"></i>
 									Logout</a>
 							</li>
@@ -102,10 +102,6 @@ export default class Nav extends Component {
 										<i className="fa fa-edit fa-fw"></i>FeedBack
 									</a>
 								</LinkContainer>
-								<LinkContainer to="/dashboard">
-									<a className={this.checkActive("")}>
-										<i className="fa fa-edit fa-fw"></i>Daily Stat</a>
-								</LinkContainer>
 							</li>
 						</ul>
 					</div>
@@ -114,4 +110,11 @@ export default class Nav extends Component {
 			</nav>
 		);
 	}
+
+	logout(){
+		
+	}
+
+
+
 }

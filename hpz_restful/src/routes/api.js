@@ -3,11 +3,23 @@ var router = express.Router();
 var BookingController = require('../controllers/BookingController');
 var ResourceController = require('../controllers/ResourceController');
 var UsersController = require('../controllers/UsersController');
+var FeedbackController = require('../controllers/FeedbackController')
 
 var jwt = require('jsonwebtoken')
 var config = require('../config.js')
 var validations = require('../common/Validations');
 
+var mqtt = require('mqtt')
+var client = mqtt.connect('mqtt://cxa17-open63.sensorup.com', {clientId: 'mqttjs_' + Math.random().toString(16).substr(2, 8), username:"main", password:"2e0f6e48-ed36-5087-b4a2-c95c07bc2a48"})
+
+client.on('connect', function () {
+  //client.subscribe("test")
+  console.log("Connected to mqtt server")
+})
+
+client.on('message', function (topic, message) {
+  console.log(message.toString())
+})
 
 function checkPrivilege(privilege, requiredPrivilegeLevel, res) {
   if (privilege >= requiredPrivilegeLevel) {
@@ -154,6 +166,8 @@ router.post("/:resource", function(req, res, next) {
         });
         return;
       }
+      console.log(req.body)
+      client.publish('others/booking', "test")
       res.json({
         status: 'success',
         result: result
@@ -205,6 +219,22 @@ router.post("/:resource", function(req, res, next) {
       });
     }
 
+  }else if(resource == 'feedback'){
+    var feedbackMsg = req.body.message;
+    console.log(feedbackMsg)
+    FeedbackController.create({message: feedbackMsg}, function(err, result){
+      if (err) {
+        res.json({
+          status: 'fail',
+          result: err
+        });
+        return;
+      }
+      res.json({
+        status: 'success',
+        result: result
+      });
+    });
   } else {
     next();
   }

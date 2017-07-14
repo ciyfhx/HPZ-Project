@@ -29,25 +29,7 @@ export default class Dashboard extends Component{
 
   	],
   	datasets: [{
-  		data: [0, 0, 0, 0, 0, 0, 0],
-  		backgroundColor: [
-  		'#FF0000',
-  		'#36A2EB',
-  		'#FFCE56',
-      '#FF66FF',
-      '#33FFFF',
-      '#FF3399',
 
-  		],
-  		hoverBackgroundColor: [
-  		'#FF0000',
-  		'#36A2EB',
-  		'#FFCE56',
-      '#FF66FF',
-      '#33FFFF',
-      '#FF3399',
-
-  		]
   	}]
   }
     }
@@ -58,7 +40,6 @@ export default class Dashboard extends Component{
       let days = {0:0, 1:0, 2:0, 3:0, 4:0, 5:0, 6:0}
       this.props.bookings.forEach((booking) => {
         let date = new Date(booking.bookTiming)
-        console.log(date)
         days[date.getDay()]++
       })
       let newData = [days[0], days[1], days[2], days[3], days[4], days[5], days[6]]
@@ -92,7 +73,11 @@ export default class Dashboard extends Component{
 
     return( <div>
     <h2>Daily Statistics</h2>
-    <Pie data={this.state.data} />
+    <div className="panel panel-default">
+      <div className="panel-heading">Pie Chart</div>
+      <div className="panel-body">
+    <Pie data={this.state.data} /></div>
+    </div>
     </div>);
   }
 

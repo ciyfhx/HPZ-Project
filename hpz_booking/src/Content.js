@@ -9,7 +9,6 @@ import FeedbackPage from './feedback/Feedback'
 import Dashboard from './dashboard/Dashboard'
 import Authorization from './utils/Authorization'
 
-
 export default class Content extends Component {
 
   render() {
@@ -34,7 +33,6 @@ class ContentRoutes extends Component{
         <Route path = "/booking-reference" component = {BookingReference}/>
          <Route path = "/create-user" component = {CreateUserPage}/>
          <Route path = "/feedback" component = {FeedbackPage}/>
-          <Route path = "/dashboard" component = {Dashboard}/>
          </Switch> );
   }
 }
