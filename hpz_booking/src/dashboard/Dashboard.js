@@ -18,13 +18,14 @@ export default class Dashboard extends Component{
     this.state = {
       data: {
   	labels: [
+      'Sunday',
   		'Monday',
   		'Tuesday',
   		'Wednesday',
       'Thursday',
       'Friday',
       'Saturday',
-      'Sunday'
+
 
   	],
   	datasets: [{
@@ -60,8 +61,28 @@ export default class Dashboard extends Component{
         console.log(date)
         days[date.getDay()]++
       })
-      data: [days[0], days[1], days[2], days[3], days[4], days[5], days[6]]
-      //this.setState({data:{datasets})
+      let newData = [days[0], days[1], days[2], days[3], days[4], days[5], days[6]]
+      this.setState({data:{datasets: [{
+    		data: newData,
+    		backgroundColor: [
+    		'#FF0000',
+    		'#36A2EB',
+    		'#FFCE56',
+        '#FF66FF',
+        '#33FFFF',
+        '#FF3399',
+
+    		],
+    		hoverBackgroundColor: [
+    		'#FF0000',
+    		'#36A2EB',
+    		'#FFCE56',
+        '#FF66FF',
+        '#33FFFF',
+        '#FF3399',
+
+    		]
+    	}]}})
     })
   }
 
