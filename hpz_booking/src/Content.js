@@ -6,7 +6,9 @@ import BookingMain from './booking/BookingMain'
 import BookingReference from './booking/BookingReference'
 import CreateUserPage from './create_user/CreateUserPage'
 import FeedbackPage from './feedback/Feedback'
+import Dashboard from './dashboard/Dashboard'
 import Authorization from './utils/Authorization'
+
 
 export default class Content extends Component {
 
@@ -27,10 +29,12 @@ export default class Content extends Component {
 class ContentRoutes extends Component{
   render(){
     return (<Switch>
+        <Route path = "/dashboard" component={Dashboard}/>
          <Route path = "/book" component = {BookingMain}/>
         <Route path = "/booking-reference" component = {BookingReference}/>
          <Route path = "/create-user" component = {CreateUserPage}/>
          <Route path = "/feedback" component = {FeedbackPage}/>
+          <Route path = "/dashboard" component = {Dashboard}/>
          </Switch> );
   }
 }

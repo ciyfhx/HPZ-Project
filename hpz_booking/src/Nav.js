@@ -80,6 +80,10 @@ export default class Nav extends Component {
 					<div className="sidebar-nav navbar-collapse">
 						<ul className="nav" id="side-menu">
 							<li>
+							<LinkContainer to="/dashboard">
+								<a className={this.checkActive("")}>
+									<i className="fa fa-dashboard fa-fw"></i>Dashboard</a>
+							</LinkContainer>
 								<LinkContainer to="/book">
 									<a className={this.checkActive("")}>
 										<i className="fa fa-edit fa-fw"></i>Booking</a>
@@ -97,6 +101,10 @@ export default class Nav extends Component {
 									<a className={this.checkActive("")}>
 										<i className="fa fa-edit fa-fw"></i>FeedBack
 									</a>
+								</LinkContainer>
+								<LinkContainer to="/dashboard">
+									<a className={this.checkActive("")}>
+										<i className="fa fa-edit fa-fw"></i>Daily Stat</a>
 								</LinkContainer>
 							</li>
 						</ul>

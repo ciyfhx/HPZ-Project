@@ -72,7 +72,10 @@ export default class BookingReference extends Component {
 	}
 
 	cancelBookings() {
-		this.props.dispatch(cancelBook(this.state.selected.bookingId))
+		let selected = this.state.selected
+		this.props.dispatch(cancelBook(selected.bookingId)).then(() => {
+			this.props.dispatch(getBookings())
+		})
 	}
 
 	onChange(row, isSelected) {

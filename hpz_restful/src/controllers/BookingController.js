@@ -41,7 +41,7 @@ module.exports = {
     });
 
   },
-  delete: function(){
+  delete: function(params, callback){
     Booking.remove(params, function(err, booking){
       if(err){
         callback(err, null);

@@ -123,23 +123,21 @@ router.get("/:resource/:id", authMiddleware, function(req, res, next) {
       })
 
     } else if (resource == 'cancel-book') {
-      console.log(id)
-      BookingController.delete({
-        _id: id,
-        function(err, result) {
-          if (err) {
-            res.json({
-              status: 'fail',
-              result: err
-            });
-            return;
-          }
+      BookingController.delete({_id: id},
+      function(err, result) {
+        if (err) {
           res.json({
-            status: 'success',
-            result: result
+            status: 'fail',
+            result: err
           });
+          return;
         }
-      });
+        res.json({
+          status: 'success',
+          result: result
+        });
+      }
+      );
     }
 
 });
